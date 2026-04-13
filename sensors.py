@@ -8,7 +8,7 @@ class Sensors:
 
     def __init__(self):
         self.sensors = self._lookup_sensors()
-        print(f"DS18B20 temparature sensors discovered: {self.sensors}")
+        print(f"DS18B20 temparature sensors discovered: {[str(sensor) for sensor in self.sensors]}")
 
     def _lookup_sensors(self) -> list[Sensor]:
         """find all DS18B20 temperature sensors"""
@@ -19,7 +19,7 @@ class Sensors:
     def has_sensors(self) -> bool:
         """returns true if at least one sensor was found on this system"""
         return len(self.sensors) > 0
-    
+
     def read_all_sensors(self) -> Snapshot:
         results: list[Measurement] = []
         for sensor in self.sensors:

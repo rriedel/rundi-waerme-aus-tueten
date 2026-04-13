@@ -41,7 +41,7 @@ class Sensor:
         self.name = self._get_sensor_name()
 
     def __str__(self) -> str:
-        return f"Sensor(id={self.device_id}, name={self.name})"
+        return f"{self.name} ({self.device_id})" if self.name else self.device_id
 
     def __repr__(self) -> str:
         return self.name or self.device_id
