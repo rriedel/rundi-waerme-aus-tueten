@@ -1,7 +1,9 @@
 from datetime import datetime
+from pathlib import Path
 from sensors import Sensors
 from snapshot import Snapshot
 
+OUTPUT_DIR = "data"
 OUTPUT_BASENAME = "messwerte_"
 OUTPUT_EXTENSION = ".csv"
 OUTPUT_DATE_PATTERN = "%Y-%m-%d_%H-%M"
@@ -11,13 +13,13 @@ CSV_SEPARATOR = ";"
 class OutputFile:
     """handles writing measurement results to a CSV file"""
 
-    def __init__(self, basename: str, sensors: Sensors):
+    def __init__(self, basename: str, data_dir: str, sensors: Sensors):
         self.sensors = sensors
 
         self.base_time = datetime.now()
         base_time_formatted = self.base_time.strftime(OUTPUT_DATE_PATTERN)
 
-        self.output_filename = basename + base_time_formatted + OUTPUT_EXTENSION
+        self.output_filename = str(Path(data_dir) / (basename + base_time_formatted + OUTPUT_EXTENSION))
         print(f"write results to: {self.output_filename}")
 
         self._write_headline()
