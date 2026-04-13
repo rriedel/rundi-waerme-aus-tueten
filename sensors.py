@@ -4,6 +4,7 @@ from snapshot import Snapshot
 
 
 class Sensors:
+    """handles discovery and reading of all temperature sensors found on this system"""
 
     def __init__(self):
         self.sensors = self._lookup_sensors()

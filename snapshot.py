@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from datetime import datetime
-from sensor import Sensor, Measurement
+from sensor import Measurement
 
 
 @dataclass
 class Snapshot:
+    """a snapshot of all measurements taken at a specific point in time"""
 
     timestamp: datetime
     measurements: list[Measurement]

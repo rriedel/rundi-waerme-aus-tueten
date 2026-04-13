@@ -21,6 +21,8 @@ see https://www.elektronik-kompendium.de/sites/praxis/bauteil_ds18b20.htm"""
 
 @dataclass
 class Measurement:
+    """represents a single measurement of a specific sensor at a specific point in time"""
+    
     sensor: "Sensor"
     value: float
 
@@ -29,6 +31,8 @@ class Measurement:
 
 @dataclass
 class Sensor:
+    """represents a single DS18B20 temperature sensor device found on this system"""
+    
     device_id: str
     name: str | None
 
