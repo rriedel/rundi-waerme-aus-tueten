@@ -21,7 +21,7 @@ def main(interval: int, output_basename: str, dryrun: bool, max_iterations: int,
     # discover and store all temperature sensors found on this system
     sensors = Sensors()
 
-    if sensors.sensors == []:
+    if sensors.has_sensors() == False:
         print("no sensors found, exiting")
         return
 
@@ -45,7 +45,7 @@ def main(interval: int, output_basename: str, dryrun: bool, max_iterations: int,
             time.sleep(interval)
             iteration_count += 1
         except KeyboardInterrupt:
-            print("measurement stopped by user")
+            print("\nmeasurement stopped by user")
             break
 
 DEFAULT_INTERVAL = 15

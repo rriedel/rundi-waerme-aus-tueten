@@ -16,6 +16,10 @@ class Sensors:
         sensors = [Sensor(id) for id in sensor_ids]
         return sensors
 
+    def has_sensors(self) -> bool:
+        """returns true if at least one sensor was found on this system"""
+        return len(self.sensors) > 0
+    
     def read_all_sensors(self) -> Snapshot:
         results: list[Measurement] = []
         for sensor in self.sensors:
