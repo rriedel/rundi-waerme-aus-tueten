@@ -45,7 +45,7 @@ class Sensor:
         return SENSOR_ID_MAPPING.get(self.device_id) or None
 
     def read_temperature(self) -> Measurement | None:
-        """read temperature from a temperature sensor device"""
+        """read temperature from a temperature sensor device (takes some time, blocks until read)"""
         sensor_file = DEVICES_DIR + self.device_id + "/w1_slave"
         with open(sensor_file, 'r') as f:
             lines = f.readlines()

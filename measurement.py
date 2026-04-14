@@ -25,20 +25,27 @@ def main(cfg: Configuration):
     print("----------------------------------------------------------------")
 
     iteration_count = 0
+
     while True:
         try:
             if cfg.max_iterations > 0 and iteration_count >= cfg.max_iterations:
                 break
 
+            # caution: this will block until all sensors have been read (which can take a while)
             snapshot = sensors.read_all_sensors()
+            
             print(snapshot)
             output.append_measurements(
                 snapshot) if output is not None else None
+            
             time.sleep(cfg.interval)
             iteration_count += 1
+            
         except KeyboardInterrupt:
             print("\nmeasurement stopped by user")
             break
+
+    output.close() if output is not None else None
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ class OutputFile:
         self.output_filename = str(Path(data_dir) / (basename + base_time_formatted + OUTPUT_EXTENSION))
         print(f"write results to: {self.output_filename}")
 
+        self.csv_file = open(self.output_filename, "a")
         self._write_headline()
 
     def append_measurements(self, snapshot: Snapshot):
@@ -32,15 +33,18 @@ class OutputFile:
 
         csv_line = str(seconds_offset) + CSV_SEPARATOR + \
             CSV_SEPARATOR.join(values_str) + "\n"
-        self._append_csv(self.output_filename, csv_line)
+        self._append_csv(csv_line)
+
+    def close(self):
+        """Close the output file"""
+        if hasattr(self, 'csv_file') and self.csv_file:
+            self.csv_file.close()
 
     def _write_headline(self):
         sensor_names = [repr(sensor) for sensor in self.sensors.sensors]
         headline = "time" + CSV_SEPARATOR + \
             CSV_SEPARATOR.join(sensor_names) + "\n"
-        with open(self.output_filename, "a") as csv:
-            csv.write(headline)
+        self.csv_file.write(headline)
 
-    def _append_csv(self, output_filename: str, line: str):
-        with open(output_filename, "a") as csv:
-            csv.write(line)
+    def _append_csv(self, line: str):
+        self.csv_file.write(line)
