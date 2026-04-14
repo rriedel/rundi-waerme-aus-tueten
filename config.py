@@ -31,7 +31,7 @@ class Configuration:
             "-i", "--interval", 
             type=int, 
             default=DEFAULT_INTERVAL,
-            help=f"time in seconds between measurements, default: {DEFAULT_INTERVAL}"
+            help=f"time in seconds between measurements, default: {DEFAULT_INTERVAL} (values below 5 make no sense)"
         )
         parser.add_argument(
             "-o", "--output", 
@@ -59,7 +59,7 @@ class Configuration:
         
         args = parser.parse_args()
         
-        self.interval = args.interval
+        self.interval = max(0, args.interval -3)  # subtract 3 seconds to account for sensor read time (which can take a while)
         self.output_basename = args.output
         self.dryrun = args.dryrun
         self.max_iterations = args.max_iterations

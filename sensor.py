@@ -1,9 +1,10 @@
 import locale
 from dataclasses import dataclass
+from pathlib import Path
 from mappings import SENSOR_ID_MAPPING
 
-DEVICES_DIR = '/sys/bus/w1/devices/'
-"""device folder in rasperry pi OS"""
+DEVICES_DIR = Path('/sys/bus/w1/devices')
+"""device folder in raspberry pi OS"""
 
 # print(f"device base folder: {DEVICES_DIR}")
 
@@ -46,13 +47,24 @@ class Sensor:
 
     def read_temperature(self) -> Measurement | None:
         """read temperature from a temperature sensor device (takes some time, blocks until read)"""
-        sensor_file = DEVICES_DIR + self.device_id + "/w1_slave"
-        with open(sensor_file, 'r') as f:
-            lines = f.readlines()
-        if lines[0].strip()[-3:] == 'YES':
-            temp_pos = lines[1].find('t=')
-            if temp_pos != -1:
-                temp_string = lines[1][temp_pos+2:]
-                temp_value = float(temp_string) / 1000.0
-                return Measurement(self, temp_value)
-        return None
+        sensor_file = DEVICES_DIR / self.device_id / "w1_slave"
+        try:
+            with sensor_file.open("r", encoding="utf-8") as f:
+                line1 = f.readline()
+                line2 = f.readline()
+        except FileNotFoundError:
+            return None
+
+        if not line1.strip().endswith("YES"):
+            return None
+
+        temp_part = line2.partition("t=")[2]
+        if not temp_part:
+            return None
+
+        try:
+            temp_value = float(temp_part) / 1000.0
+        except ValueError:
+            return None
+
+        return Measurement(self, temp_value)
