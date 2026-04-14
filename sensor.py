@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 # map known sensor (device) ID to human readable names
 SENSOR_ID_MAPPING = {
-    "28-000000b323aa": "yellow",
-    "28-0000001": "red",
-    "28-0000002": "green",
-    "28-0000003": "blue",
+    "28-000000b323aa": "blue",
+    "28-000000b2fd47": "black",
+    "28-000000b3175e": "red",
+    "28-000000b31eb4": "green",
 }
 
 DEVICES_DIR = '/sys/bus/w1/devices/'
