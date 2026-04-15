@@ -45,6 +45,8 @@ class OutputFile:
         headline = "time" + CSV_SEPARATOR + \
             CSV_SEPARATOR.join(sensor_names) + "\n"
         self.csv_file.write(headline)
-
+        self.csv_file.flush()  # ensure data is written to disk
+        
     def _append_csv(self, line: str):
         self.csv_file.write(line)
+        self.csv_file.flush()  # ensure data is written to disk
